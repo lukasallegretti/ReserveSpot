@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  postgres:
+    build:
+      context: ./dockerfiles/postgres/
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@test.test
+      - PGADMIN_DEFAULT_PASSWORD=dontuseweakpasswords
+      - PGADMIN_SERVER_JSON_FILE=/servers/servers.json
+
+    volumes:
+      - ./pgadmin4/servers/
+
+    ports:
+      - "8181:80"
+
+  api:
+    build:
+      context: ./dockerfiles/app/
+      dockerfile: Dockerfile
+
+    ports:
+      - "8000:8000"

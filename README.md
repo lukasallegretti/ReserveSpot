@@ -1,6 +1,10 @@
 # ReserveSpot
 Uma API de reserva de hotéis que o ChatGPT me deu como ideia.
 
+# running docker
+
+primeiro rode `docker build -t myimage .` depois `docker run -d --name mycontainer -p 8000:8000 myimage`
+
 # Chat GPT ideas
 
 API de Reserva de Hotéis:
