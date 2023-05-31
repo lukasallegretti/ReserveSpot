@@ -3,25 +3,36 @@ services:
   postgres:
     build:
       context: ./dockerfiles/postgres/
+    networks:
+      - hotel-network
 
   pgadmin:
     image: dpage/pgadmin4
 
     environment:
-      - PGADMIN_DEFAULT_EMAIL=test@test.test
-      - PGADMIN_DEFAULT_PASSWORD=dontuseweakpasswords
+      - PGADMIN_DEFAULT_EMAIL=test@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=123456
       - PGADMIN_SERVER_JSON_FILE=/servers/servers.json
 
     volumes:
-      - ./pgadmin4/servers/
+      - /./pgadmin4/servers/
 
     ports:
       - "8181:80"
+    depends_on:
+      - postgres
+    networks:
+      - hotel-network
 
   api:
     build:
-      context: ./dockerfiles/app/
-      dockerfile: Dockerfile
+      context: .
 
     ports:
       - "8000:8000"
+    networks:
+      - hotel-network
+
+networks:
+  hotel-network:
+    driver: bridge
