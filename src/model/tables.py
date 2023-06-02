@@ -19,12 +19,12 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(30), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(30), nullable=False)
     email: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
-    phone_number: Mapped[int] = mapped_column(Integer(15))
+    phone_number: Mapped[int] = mapped_column(Integer)
     first_name: Mapped[str] = mapped_column(String(30), nullable=False)
     last_name: Mapped[str] = mapped_column(String(30), nullable=False)
     birth_date = mapped_column(Date, nullable=False)
     address: Mapped[str] = mapped_column(String(150))
-    cpf: Mapped[int] = mapped_column(Integer(11), unique=True, nullable=False)
+    cpf: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
 
     def __repr__(self) -> str:
         return f"""
@@ -47,8 +47,8 @@ class Hotel(Base):
     hotel_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     hotel_name: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(String(150), nullable=False)
-    cep: Mapped[int] = mapped_column(Integer(8), nullable=False)
-    phone_number: Mapped[int] = mapped_column(Integer(15), nullable=False)
+    cep: Mapped[int] = mapped_column(Integer, nullable=False)
+    phone_number: Mapped[int] = mapped_column(Integer, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
 
     def __repr__(self) -> str:
@@ -70,8 +70,8 @@ class Room(Base):
     type: Mapped[str] = mapped_column(String(50), nullable=False)
     price: Mapped[float] = mapped_column(Float(10), nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
-    max_customers: Mapped[int] = mapped_column(Integer(3), nullable=False)
-    total_rooms: Mapped[int] = mapped_column(Integer(3), nullable=False)
+    max_customers: Mapped[int] = mapped_column(Integer, nullable=False)
+    total_rooms: Mapped[int] = mapped_column(Integer, nullable=False)
 
     def __repr__(self) -> str:
         return f"""
@@ -95,8 +95,8 @@ class Booking(Base):
     check_in: Mapped[Date] = mapped_column(Date, nullable=False)
     check_out: Mapped[Date] = mapped_column(Date, nullable=False)
     total_price: Mapped[float] = mapped_column(Float(10), nullable=False)
-    total_nights: Mapped[int] = mapped_column(Integer(3), nullable=False)
-    total_customers: Mapped[int] = mapped_column(Integer(3), nullable=False)
+    total_nights: Mapped[int] = mapped_column(Integer, nullable=False)
+    total_customers: Mapped[int] = mapped_column(Integer, nullable=False)
     status: Mapped[str] = mapped_column(String(50), nullable=False)
 
     def __repr__(self) -> str:
@@ -112,3 +112,14 @@ class Booking(Base):
             total_customers={self.total_customers!r},
             status={self.status!r})
         """
+
+
+if __name__ == "__main__":
+    from sqlalchemy import create_engine
+
+    engine = create_engine(
+        "postgresql+psycopg2://postgres:postgres@172.18.0.3:5432/postgres"
+    )
+
+    print(engine.connect())
+    Base.metadata.create_all(engine)
