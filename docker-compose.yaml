@@ -2,7 +2,7 @@ version: '3.7'
 services:
   postgres:
     build:
-      context: ./dockerfiles/postgres/
+      context: ./postgres/
     networks:
       - hotel-network
 

@@ -24,7 +24,7 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String(30), nullable=False)
     birth_date = mapped_column(Date, nullable=False)
     address: Mapped[str] = mapped_column(String(150))
-    cpf: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
+    cpf: Mapped[str] = mapped_column(String(11), unique=True, nullable=False)
 
     def __repr__(self) -> str:
         return f"""
@@ -47,7 +47,7 @@ class Hotel(Base):
     hotel_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     hotel_name: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(String(150), nullable=False)
-    cep: Mapped[int] = mapped_column(Integer, nullable=False)
+    cep: Mapped[str] = mapped_column(String(8), nullable=False)
     phone_number: Mapped[int] = mapped_column(Integer, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
 
@@ -68,7 +68,7 @@ class Room(Base):
     room_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     hotel_id: Mapped[int] = mapped_column(ForeignKey("hotels.hotel_id"), nullable=False)
     type: Mapped[str] = mapped_column(String(50), nullable=False)
-    price: Mapped[float] = mapped_column(Float(10), nullable=False)
+    price: Mapped[float] = mapped_column(Float, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=False)
     max_customers: Mapped[int] = mapped_column(Integer, nullable=False)
     total_rooms: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -91,10 +91,9 @@ class Booking(Base):
     booking_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.room_id"), nullable=False)
-    hotel_id: Mapped[int] = mapped_column(ForeignKey("hotels.hotel_id"), nullable=False)
     check_in: Mapped[Date] = mapped_column(Date, nullable=False)
     check_out: Mapped[Date] = mapped_column(Date, nullable=False)
-    total_price: Mapped[float] = mapped_column(Float(10), nullable=False)
+    total_price: Mapped[float] = mapped_column(Float, nullable=False)
     total_nights: Mapped[int] = mapped_column(Integer, nullable=False)
     total_customers: Mapped[int] = mapped_column(Integer, nullable=False)
     status: Mapped[str] = mapped_column(String(50), nullable=False)
@@ -114,12 +113,12 @@ class Booking(Base):
         """
 
 
-if __name__ == "__main__":
-    from sqlalchemy import create_engine
+# if __name__ == "__main__":
+#     from sqlalchemy import create_engine
 
-    engine = create_engine(
-        "postgresql+psycopg2://postgres:postgres@172.18.0.3:5432/postgres"
-    )
+#     engine = create_engine(
+#         "postgresql+psycopg2://postgres:postgres@172.18.0.3:5432/postgres"
+#     )
 
-    print(engine.connect())
-    Base.metadata.create_all(engine)
+#     print(engine.connect())
+#     Base.metadata.create_all(engine)
